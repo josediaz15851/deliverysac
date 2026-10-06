@@ -1,126 +1,94 @@
 ---
 name: conventional-commit
-description: Guía para escribir commits siguiendo Conventional Commits (feat, fix, docs, refactor, test, chore, style, perf, ci). Se usa para mantener historial limpio y automatizar versionado.
+description: Formato estándar tipo(scope): descripción imperativa para commits claros y navegables.
 ---
 
 # Conventional Commit
 
-Estandarizá los commits siguiendo Conventional Commits. El formato permite:
-- Historial legible y navegable
-- Automatización de CHANGELOG
-- Versionado semántico (SemVer)
+Formato simple y consistente para todos los commits en DeliverySac.
 
 ## Formato obligatorio
 
 ```
-<type>(<scope>): <subject>
-
-<body>
-
-<footer>
+tipo(scope): descripción en imperativo
 ```
 
-### **type** (obligatorio)
+**Sin más.** Punto. No necesita body ni footer en commits simples.
 
-- **feat:** Nueva funcionalidad (MINOR en SemVer)
-- **fix:** Corrección de bug (PATCH en SemVer)
-- **docs:** Cambios en documentación
-- **test:** Agregar o modificar tests
-- **refactor:** Cambio de código sin alterar funcionalidad
+## Tipos
+
+- **feat:** Nueva funcionalidad
+- **fix:** Corrección de bug
+- **docs:** Documentación (PRD, README, comentarios)
+- **test:** Tests nuevos o modificados
+- **refactor:** Cambio de código sin alterar funcionamiento
 - **perf:** Mejora de rendimiento
-- **style:** Cambios de formato (espacios, comas, etc.) — no afectan funcionamiento
-- **chore:** Cambios en build, deps, config — no afectan código de producción
+- **style:** Formato (espacios, comas, etc.) — no afecta lógica
+- **chore:** Config, deps, build — no toca código de producción
 - **ci:** Cambios en CI/CD
 
-### **scope** (opcional pero recomendado para feat/fix)
+## Scope (obligatorio para feat/fix)
 
-Área del código afectada. En DeliverySac:
-- **api:** Backend (.NET / EF Core)
+Área afectada en DeliverySac:
+- **api:** Backend (.NET, EF Core)
 - **web:** Frontend (Angular)
 - **db:** Base de datos, migraciones
-- **auth:** Autenticación y roles
+- **auth:** Autenticación, roles
 - **delivery:** Lógica de pedidos y estado
 - **offline:** Sincronización offline
-- **ui:** Interfaz (solo cambios visuales)
+- **ui:** Interfaz visual
+- **prd:** Requerimientos (PRD, AC, RNF)
 
-### **subject** (obligatorio)
+## Descripción
 
-- Máximo 50 caracteres
-- Modo imperativo: "add", "remove", "fix", NO "added", "removed", "fixed"
-- Sin punto final
+- Imperativo: "agregar", "rechazar", "aclarar" — NO "agregué", "rechazado"
 - Minúscula al inicio
+- SIN punto final
+- <= 50 caracteres
+- Describe QUÉ hace, no CÓMO
 
-### **body** (opcional pero recomendado para cambios no triviales)
-
-- Explicá el QUÉ y el POR QUÉ, no el CÓMO
-- Líneas <= 72 caracteres
-- Separá del subject con línea en blanco
-
-### **footer** (opcional)
-
-Usa para referenciar issues o breaking changes:
-- `Closes #123` — cierra un issue
-- `BREAKING CHANGE: descripción` — cambio que rompe compatibilidad
-- `Co-Authored-By: Name <email>` — coautoría
-
-## Ejemplos en DeliverySac
-
-### ✅ Bueno: feat con scope
+## Ejemplos ✅
 
 ```
-feat(delivery): permitir cambio de estado de pedido a EN_RUTA
-
-El repartidor ahora puede marcar un pedido como EN_RUTA desde su celular.
-La transición valida que el pedido esté en estado ASIGNADO y registra
-automáticamente la hora y el usuario.
-
-Closes #45
+feat(auth): agregar validación de email en el registro
+fix(delivery): rechazar pedidos sin líneas con HTTP 400
+docs(prd): aclarar máquina de estados del pedido
+test(api): validar que solo PENDIENTE permite edición
+refactor(web): simplificar componente de listado
+perf(db): agregar índice en tabla de asignaciones
+style: alinear indentación en AuthController
+chore: actualizar versión de Angular
+ci: agregar eslint en pre-commit
 ```
 
-### ✅ Bueno: fix
+## Ejemplos ❌
 
 ```
-fix(api): rechazar edición de pedidos no-PENDIENTE con HTTP 400
-
-Previously editando un pedido ASIGNADO o EN_RUTA alteraba la trazabilidad.
-Ahora valida en backend que solo pedidos PENDIENTE pueden ser editados.
-
-Closes #67
+Update stuff                         ← sin tipo, vago
+feat: agregar cosa que necesito     ← > 50 chars
+Fix(AUTH): MAYÚSCULA               ← mayúscula
+fix: agregue validacion.            ← punto final, "agregue" no imperativo
+docs: actualizar PRD. (cambios)     ← sin scope para docs de código
 ```
 
-### ✅ Bueno: docs simple
+## Reglas duras
+
+1. **Siempre type(scope):** excepto docs simples tipo `docs: actualizar README`
+2. **Imperativo:** "fix", "add", "remove", "update", "clarify", "validate"
+3. **No abstracciones mentales:** describe el cambio visible, no la intención
+4. **Duda:** mejor "chore" que inventar tipo
+
+## Si necesita body/footer
+
+Separás con línea en blanco:
 
 ```
-docs: actualizar README con instrucciones de setup
+feat(delivery): permitir reasignación de pedidos
+
+El administrador puede reasignar un pedido ASIGNADO a otro repartidor.
+La asignación anterior se invalida automáticamente.
+
+Co-Authored-By: Claude Haiku 4.5 <noreply@anthropic.com>
 ```
 
-### ❌ Malo
-
-```
-Update stuff                          ← vago, no tiene tipo
-fix: fixed the thing                 ← "fixed" no es imperativo
-feat: esto es muy largo y no dice nada clara en un renglón ← > 50 chars
-FEAT(DELIVERY): MAYUSCULA            ← mayúscula
-fix: agregue validacion.              ← punto final, "agregue" no imperativo
-```
-
-## Reglas para DeliverySac
-
-1. **Commits no-triviales:** siempre incluir scope
-2. **Cambios en RF/RNF/AC:** usar `docs(prd):` con referencia a qué cambió
-3. **Migraciones de BD:** usar `feat(db):` o `fix(db):`
-4. **Tests:** `test(scope):` si es lógica nueva o `test: ...` si es bug
-5. **Duda al escribir:** mejor "chore" que inventar tipo
-6. **Co-autoría:** siempre incluir línea `Co-Authored-By:` si trabajaste en equipo
-
-## Cómo verificar tu commit
-
-Antes de `git push`:
-
-1. ¿El type es uno de: feat, fix, docs, test, refactor, perf, style, chore, ci?
-2. ¿El scope (si existe) es claro y no muy largo?
-3. ¿El subject es imperativo y <= 50 caracteres?
-4. ¿El body explica el POR QUÉ, no el CÓMO?
-5. ¿Hay referencias a issues cerrados (Closes #X)?
-
-Si respondés sí a todo → listo para pushear.
+Pero el 95% de los commits es solo la línea de type(scope).
