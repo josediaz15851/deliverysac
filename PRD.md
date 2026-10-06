@@ -11,7 +11,7 @@ En la empresa DeliverySac repartimos con 5 unidades (3 motos lineales y 2 furgon
 ---
 
 ## Objetivos
-Que al final del día el 100% de los pedidos asignados tengan un estado final (entregado, no entregado o reprogramado) registrado en el sistema con su respectiva hora y usuario, sin llamadas telefónicas. 
+Que al final del día el 100% de los pedidos asignados tengan un estado final (entregado, no entregado o reprogramado) registrado en el sistema con su respectiva hora y usuario, sin llamadas telefónicas ni dudas.
 
 *Flujo operativo:* Creación de pedido -> Asignación -> Repartidor marca estado (con soporte offline/reintento) -> Administrador visualiza el estado y la hora actualizados.
 
