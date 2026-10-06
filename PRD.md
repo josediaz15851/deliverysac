@@ -31,7 +31,7 @@ Que al final del día el 100% de los pedidos asignados tengan un estado final (e
 * **RF-09:** El sistema debe registrar de forma automática e inalterable la hora exacta y el ID del usuario responsable cada vez que ocurra un cambio de estado en el pedido.
 * **RF-10:** El sistema debe mostrar al administrador el listado en tiempo real de los pedidos del día con su estado actualizado, hora de última modificación y motivo en caso de incidencias.
 * **RF-11:** El celular del repartidor debe almacenar localmente los cambios de estado si la red 4G se interrumpe momentáneamente, reintentando la sincronización en segundo plano de forma automática al recuperar la conectividad.
-* **RF-12:** El sistema debe paginar todos los listados principales utilizando los parámetros de consulta `page` y `size`.
+* **RF-12:** El sistema debe paginar todos los listados principales utilizando los parámetros de consulta `page` y `size` por defecto.
 
 ---
 
