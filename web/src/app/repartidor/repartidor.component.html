@@ -1,0 +1,68 @@
+<div class="repartidor-container">
+  <div class="header">
+    <h1>Dashboard Repartidor</h1>
+    <button class="logout-btn" (click)="logout()">Cerrar Sesión</button>
+  </div>
+
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="successMessage" class="success-message">
+    {{ successMessage }}
+  </div>
+
+  <div *ngIf="cargando" class="loading">
+    Cargando asignaciones...
+  </div>
+
+  <div *ngIf="!cargando && asignaciones.length === 0" class="no-data">
+    No hay pedidos asignados
+  </div>
+
+  <div *ngIf="!cargando && asignaciones.length > 0" class="asignaciones-grid">
+    <div *ngFor="let asignacion of asignaciones" class="card">
+      <div class="card-header">
+        <h3>Pedido #{{ asignacion.pedidoId }}</h3>
+        <span class="badge">Asignado</span>
+      </div>
+
+      <div class="card-body">
+        <p><strong>Descripción:</strong> {{ asignacion.pedidoDescripcion }}</p>
+        <p><strong>Fecha Asignación:</strong> {{ asignacion.fechaAsignacion | date: 'short' }}</p>
+      </div>
+
+      <div class="card-footer">
+        <button
+          *ngIf="selectedAsignacionId !== asignacion.id"
+          (click)="cambiarEstado(asignacion.id)"
+          class="btn-primary"
+        >
+          Cambiar Estado
+        </button>
+
+        <div *ngIf="selectedAsignacionId === asignacion.id" class="estado-selector">
+          <select [(ngModel)]="nuevoEstado" class="estado-select">
+            <option value="">-- Selecciona estado --</option>
+            <option *ngFor="let estado of estados" [value]="estado">
+              {{ estado }}
+            </option>
+          </select>
+
+          <button (click)="guardarCambioEstado()" class="btn-success">Guardar</button>
+          <button (click)="cancelarCambio()" class="btn-cancel">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="!cargando && total > 0" class="pagination">
+    <button
+      *ngFor="let p of [].constructor(obtenerTotalPaginas()); let i = index"
+      [class.active]="page === i + 1"
+      (click)="cambiarPagina(i + 1)"
+    >
+      {{ i + 1 }}
+    </button>
+  </div>
+</div>
