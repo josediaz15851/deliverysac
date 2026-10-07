@@ -1,0 +1,70 @@
+<div class="admin-container">
+  <div class="header">
+    <h1>Dashboard Administrador</h1>
+    <button class="logout-btn" (click)="logout()">Cerrar Sesión</button>
+  </div>
+
+  <div class="filters">
+    <h3>Filtrar por Estado</h3>
+    <div class="filter-buttons">
+      <button
+        *ngFor="let estado of estados"
+        [class.active]="estadoFiltro === estado"
+        (click)="filtrarPorEstado(estado)"
+      >
+        {{ estado }}
+      </button>
+      <button
+        [class.active]="estadoFiltro === ''"
+        (click)="filtrarPorEstado('')"
+      >
+        Todos
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="cargando" class="loading">
+    Cargando pedidos...
+  </div>
+
+  <div *ngIf="!cargando && pedidos.length === 0" class="no-data">
+    No hay pedidos disponibles
+  </div>
+
+  <table *ngIf="!cargando && pedidos.length > 0" class="pedidos-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Cliente</th>
+        <th>Descripción</th>
+        <th>Monto</th>
+        <th>Estado</th>
+        <th>Fecha Creación</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let pedido of pedidos">
+        <td>{{ pedido.id }}</td>
+        <td>{{ pedido.clienteNombre }}</td>
+        <td>{{ pedido.descripcion }}</td>
+        <td>${{ pedido.monto }}</td>
+        <td><span [class]="'badge badge-' + pedido.estado.toLowerCase()">{{ pedido.estado }}</span></td>
+        <td>{{ pedido.fechaCreacion | date: 'short' }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="!cargando && total > 0" class="pagination">
+    <button
+      *ngFor="let p of [].constructor(obtenerTotalPaginas()); let i = index"
+      [class.active]="page === i + 1"
+      (click)="cambiarPagina(i + 1)"
+    >
+      {{ i + 1 }}
+    </button>
+  </div>
+</div>
