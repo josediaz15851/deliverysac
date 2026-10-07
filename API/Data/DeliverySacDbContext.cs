@@ -10,6 +10,7 @@ public class DeliverySacDbContext : DbContext
     }
 
     public DbSet<Usuario> Usuarios => Set<Usuario>();
+    public DbSet<Cliente> Clientes => Set<Cliente>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -24,7 +25,15 @@ public class DeliverySacDbContext : DbContext
             entity.HasIndex(e => e.Email).IsUnique();
         });
 
+        modelBuilder.Entity<Cliente>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.Nombre).IsRequired().HasMaxLength(255);
+            entity.Property(e => e.Direccion).IsRequired().HasMaxLength(500);
+        });
+
         SeedUsuarios(modelBuilder);
+        SeedClientes(modelBuilder);
     }
 
     private void SeedUsuarios(ModelBuilder modelBuilder)
@@ -50,6 +59,30 @@ public class DeliverySacDbContext : DbContext
                 Email = "supervisor@deliverysac.com",
                 PasswordHash = BCrypt.Net.BCrypt.HashPassword("password123"),
                 Rol = "Supervisor"
+            }
+        );
+    }
+
+    private void SeedClientes(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Cliente>().HasData(
+            new Cliente
+            {
+                Id = 1,
+                Nombre = "Café Central",
+                Direccion = "Calle 1 #100, Centro"
+            },
+            new Cliente
+            {
+                Id = 2,
+                Nombre = "Restaurante El Buen Sabor",
+                Direccion = "Avenida Principal 250, Zona Norte"
+            },
+            new Cliente
+            {
+                Id = 3,
+                Nombre = "Farmacia Salud Plus",
+                Direccion = "Calle Secundaria 75, Barrio Sur"
             }
         );
     }

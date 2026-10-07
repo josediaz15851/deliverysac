@@ -3,6 +3,7 @@ using DeliverySac.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DeliverySac.API.Migrations
 {
     [DbContext(typeof(DeliverySacDbContext))]
-    partial class DeliverySacDbContextModelSnapshot : ModelSnapshot
+    [Migration("20261007033716_AddClientesTable")]
+    partial class AddClientesTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -42,26 +45,6 @@ namespace DeliverySac.API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Clientes");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Direccion = "Calle 1 #100, Centro",
-                            Nombre = "Café Central"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Direccion = "Avenida Principal 250, Zona Norte",
-                            Nombre = "Restaurante El Buen Sabor"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Direccion = "Calle Secundaria 75, Barrio Sur",
-                            Nombre = "Farmacia Salud Plus"
-                        });
                 });
 
             modelBuilder.Entity("DeliverySac.API.Models.Usuario", b =>
@@ -99,21 +82,21 @@ namespace DeliverySac.API.Migrations
                         {
                             Id = 1,
                             Email = "admin@deliverysac.com",
-                            PasswordHash = "$2a$11$XLD26bRbc2nvVHlfqvBRPOA7UElBZdAkd/L.MLLWvtEH2jW7W9x0S",
+                            PasswordHash = "$2a$11$dgiNYXjWxkFpbuz4LgNG6eUBbKnXVj9RKrm7r/PjIgfuDm1ImPVEO",
                             Rol = "Administrador"
                         },
                         new
                         {
                             Id = 2,
                             Email = "repartidor@deliverysac.com",
-                            PasswordHash = "$2a$11$18C7OK9FvrVP0OkP7Wmn1u8Jk5tYlSj3tj2ulxkkQktN151KcdFdi",
+                            PasswordHash = "$2a$11$2dIHN0h.64ARsjnPcfAD2OPhJ/bLyLxBK74fneyRB/IfVsysy12Je",
                             Rol = "Repartidor"
                         },
                         new
                         {
                             Id = 3,
                             Email = "supervisor@deliverysac.com",
-                            PasswordHash = "$2a$11$WKbwVkdWc7O55FGbHWrWKOXLz1BQaNXGFqwBJmfOQJvwsK52FwFPK",
+                            PasswordHash = "$2a$11$hINk/Os4BDBNuYgd13WC5O1uh1qJSx4XCex2X.7KzcC55OIlbK8w.",
                             Rol = "Supervisor"
                         });
                 });
