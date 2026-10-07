@@ -1,0 +1,26 @@
+# .NET
+bin/
+obj/
+*.dll
+*.pdb
+*.exe
+
+# Angular
+web/node_modules/
+web/dist/
+web/.angular/
+
+# Visual Studio
+.vs/
+.vscode/
+*.user
+*.suo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Misc
+*.log
+*.swp
+*.swo
