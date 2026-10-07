@@ -12,6 +12,7 @@ public class DeliverySacDbContext : DbContext
     public DbSet<Usuario> Usuarios => Set<Usuario>();
     public DbSet<Cliente> Clientes => Set<Cliente>();
     public DbSet<Pedido> Pedidos => Set<Pedido>();
+    public DbSet<Asignacion> Asignaciones => Set<Asignacion>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -45,9 +46,20 @@ public class DeliverySacDbContext : DbContext
             entity.HasOne(e => e.Cliente).WithMany().HasForeignKey(e => e.ClienteId).OnDelete(DeleteBehavior.Restrict);
         });
 
+        modelBuilder.Entity<Asignacion>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.PedidoId).IsRequired();
+            entity.Property(e => e.RepartidorId).IsRequired();
+            entity.Property(e => e.FechaAsignacion).IsRequired();
+            entity.HasOne(e => e.Pedido).WithMany().HasForeignKey(e => e.PedidoId).OnDelete(DeleteBehavior.Restrict);
+            entity.HasOne(e => e.Repartidor).WithMany().HasForeignKey(e => e.RepartidorId).OnDelete(DeleteBehavior.Restrict);
+        });
+
         SeedUsuarios(modelBuilder);
         SeedClientes(modelBuilder);
         SeedPedidos(modelBuilder);
+        SeedAsignaciones(modelBuilder);
     }
 
     private void SeedUsuarios(ModelBuilder modelBuilder)
@@ -134,6 +146,29 @@ public class DeliverySacDbContext : DbContext
                 Estado = EstadoPedido.EN_RUTA,
                 FechaCreacion = now.AddHours(-5),
                 FechaActualizacion = now.AddMinutes(-30)
+            }
+        );
+    }
+
+    private void SeedAsignaciones(ModelBuilder modelBuilder)
+    {
+        var now = DateTime.UtcNow;
+        modelBuilder.Entity<Asignacion>().HasData(
+            new Asignacion
+            {
+                Id = 1,
+                PedidoId = 2,
+                RepartidorId = 2,
+                FechaAsignacion = now.AddHours(-1),
+                FechaEntrega = null
+            },
+            new Asignacion
+            {
+                Id = 2,
+                PedidoId = 3,
+                RepartidorId = 2,
+                FechaAsignacion = now.AddHours(-5),
+                FechaEntrega = null
             }
         );
     }

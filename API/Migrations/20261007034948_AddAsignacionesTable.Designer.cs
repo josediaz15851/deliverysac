@@ -4,6 +4,7 @@ using DeliverySac.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DeliverySac.API.Migrations
 {
     [DbContext(typeof(DeliverySacDbContext))]
-    partial class DeliverySacDbContextModelSnapshot : ModelSnapshot
+    [Migration("20261007034948_AddAsignacionesTable")]
+    partial class AddAsignacionesTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,22 +52,6 @@ namespace DeliverySac.API.Migrations
                     b.HasIndex("RepartidorId");
 
                     b.ToTable("Asignaciones");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            FechaAsignacion = new DateTime(2026, 10, 7, 2, 50, 28, 476, DateTimeKind.Utc).AddTicks(4960),
-                            PedidoId = 2,
-                            RepartidorId = 2
-                        },
-                        new
-                        {
-                            Id = 2,
-                            FechaAsignacion = new DateTime(2026, 10, 6, 22, 50, 28, 476, DateTimeKind.Utc).AddTicks(4960),
-                            PedidoId = 3,
-                            RepartidorId = 2
-                        });
                 });
 
             modelBuilder.Entity("DeliverySac.API.Models.Cliente", b =>
@@ -152,8 +139,8 @@ namespace DeliverySac.API.Migrations
                             ClienteId = 1,
                             Descripcion = "2 cafés cortados + 1 medialunas",
                             Estado = 0,
-                            FechaActualizacion = new DateTime(2026, 10, 7, 3, 50, 28, 476, DateTimeKind.Utc).AddTicks(4854),
-                            FechaCreacion = new DateTime(2026, 10, 7, 3, 50, 28, 476, DateTimeKind.Utc).AddTicks(4854),
+                            FechaActualizacion = new DateTime(2026, 10, 7, 3, 49, 48, 651, DateTimeKind.Utc).AddTicks(5795),
+                            FechaCreacion = new DateTime(2026, 10, 7, 3, 49, 48, 651, DateTimeKind.Utc).AddTicks(5795),
                             Monto = 450.00m
                         },
                         new
@@ -162,8 +149,8 @@ namespace DeliverySac.API.Migrations
                             ClienteId = 2,
                             Descripcion = "Menú completo para 4 personas",
                             Estado = 1,
-                            FechaActualizacion = new DateTime(2026, 10, 7, 2, 50, 28, 476, DateTimeKind.Utc).AddTicks(4854),
-                            FechaCreacion = new DateTime(2026, 10, 7, 1, 50, 28, 476, DateTimeKind.Utc).AddTicks(4854),
+                            FechaActualizacion = new DateTime(2026, 10, 7, 2, 49, 48, 651, DateTimeKind.Utc).AddTicks(5795),
+                            FechaCreacion = new DateTime(2026, 10, 7, 1, 49, 48, 651, DateTimeKind.Utc).AddTicks(5795),
                             Monto = 2500.00m
                         },
                         new
@@ -172,8 +159,8 @@ namespace DeliverySac.API.Migrations
                             ClienteId = 3,
                             Descripcion = "Vitaminas y suplementos varios",
                             Estado = 2,
-                            FechaActualizacion = new DateTime(2026, 10, 7, 3, 20, 28, 476, DateTimeKind.Utc).AddTicks(4854),
-                            FechaCreacion = new DateTime(2026, 10, 6, 22, 50, 28, 476, DateTimeKind.Utc).AddTicks(4854),
+                            FechaActualizacion = new DateTime(2026, 10, 7, 3, 19, 48, 651, DateTimeKind.Utc).AddTicks(5795),
+                            FechaCreacion = new DateTime(2026, 10, 6, 22, 49, 48, 651, DateTimeKind.Utc).AddTicks(5795),
                             Monto = 1800.50m
                         });
                 });
@@ -213,21 +200,21 @@ namespace DeliverySac.API.Migrations
                         {
                             Id = 1,
                             Email = "admin@deliverysac.com",
-                            PasswordHash = "$2a$11$jA1Wxwcyltt2RcFpMtuTnumqyrfP4NcqnwhQAbyxRFhRX9xTDPYWu",
+                            PasswordHash = "$2a$11$Z/4othJUi7YlkZnPaCQ0le.G1hyaCizQG.pyQjf0.kMmh5zFciCB2",
                             Rol = "Administrador"
                         },
                         new
                         {
                             Id = 2,
                             Email = "repartidor@deliverysac.com",
-                            PasswordHash = "$2a$11$o7diHQsRnY47iwObSgchBeq6u7gTotEb87/VPLwlhcNi2jnubG3TW",
+                            PasswordHash = "$2a$11$ypkHCBAXwt.Dn3kgTAggouFiPxrFmcgjjGiFLCBevKktP2TeJFpkK",
                             Rol = "Repartidor"
                         },
                         new
                         {
                             Id = 3,
                             Email = "supervisor@deliverysac.com",
-                            PasswordHash = "$2a$11$YbkCbaJS0q.yKxcWXi5PK.GYUR5LGfSKNoZN4/1MzqrH0xx77b8v.",
+                            PasswordHash = "$2a$11$5kUqLwz0s.hXtShf/nFh8.O5xHWMznRnwGPDLrvCPbHNXNzxDjani",
                             Rol = "Supervisor"
                         });
                 });
