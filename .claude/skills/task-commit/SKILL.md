@@ -1,11 +1,11 @@
 ---
 name: task-commit
-description: Verifica build de frontend y backend, luego commitea tarea completada usando conventional-commit. Se usa cuando terminas una subtarea del plan.
+description: Verifica build de frontend y backend antes de commitear. Se usa después de terminar una subtarea compilable.
 ---
 
 # Task Commit
 
-Cuando termines una subtarea que compila:
+Cuando termines una subtarea:
 
 1. **Verifica que compila (backend)**
    ```
@@ -13,7 +13,7 @@ Cuando termines una subtarea que compila:
    dotnet build
    dotnet test
    ```
-   Si falla, arreglá primero. NO continúes si hay errores.
+   Si falla, arreglá primero. NO continúes.
 
 2. **Verifica que compila (frontend)**
    ```
@@ -22,25 +22,17 @@ Cuando termines una subtarea que compila:
    ```
    Si falla, arreglá primero.
 
-3. **Usa conventional-commit para el mensaje**
-   
-   Formato: `tipo(scope): descripción`
-   - **tipo:** feat, fix, docs, test, refactor (del skill conventional-commit)
-   - **scope:** api, web, auth, delivery, db, etc.
-   - **descripción:** imperativo, minúscula, sin punto
-   
-   Ejemplos:
-   - `feat(api): crear modelo usuario + dbcontext`
-   - `feat(web): crear authservice`
-   - `test(api): validar máquina de estados`
-
-4. **Stagea y commitea**
+3. **Stagea solo archivos de la subtarea** (no bin/, obj/, dist/, node_modules/)
    ```
    git add <archivos>
-   git commit -m "tipo(scope): descripción"
-   git push origin main
    ```
 
-5. **Solo archivos de la subtarea** (no bin/, obj/, dist/, node_modules/)
+4. **Commitea usando skill conventional-commit**
+   
+   El mensaje debe ser: `tipo(scope): descripción`
+   - Ejemplo: `feat(api): crear modelo usuario + dbcontext`
+   - Ejemplo: `feat(web): crear authservice`
+   - Usa el skill `conventional-commit` para redactarlo
 
-Una subtarea = un commit. Limpio, pequeño, compilable.
+Una subtarea = un commit. Compilable, testeable, limpio.
+
