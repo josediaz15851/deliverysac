@@ -1,0 +1,116 @@
+<div class="supervisor-container">
+  <div class="header">
+    <h1>Dashboard Supervisor</h1>
+    <button class="logout-btn" (click)="logout()">Cerrar Sesión</button>
+  </div>
+
+  <div class="filters">
+    <h3>Filtrar por Estado</h3>
+    <div class="filter-buttons">
+      <button
+        *ngFor="let estado of estados"
+        [class.active]="estadoFiltro === estado"
+        (click)="filtrarPorEstado(estado)"
+      >
+        {{ estado }}
+      </button>
+      <button
+        [class.active]="estadoFiltro === ''"
+        (click)="filtrarPorEstado('')"
+      >
+        Todos
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="cargando" class="loading">
+    Cargando pedidos...
+  </div>
+
+  <div *ngIf="!cargando && pedidos.length === 0" class="no-data">
+    No hay pedidos disponibles
+  </div>
+
+  <table *ngIf="!cargando && pedidos.length > 0" class="pedidos-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Cliente</th>
+        <th>Descripción</th>
+        <th>Monto</th>
+        <th>Estado</th>
+        <th>Última Actualización</th>
+        <th>Acción</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let pedido of pedidos">
+        <td>{{ pedido.id }}</td>
+        <td>{{ pedido.clienteNombre }}</td>
+        <td>{{ pedido.descripcion }}</td>
+        <td>${{ pedido.monto }}</td>
+        <td><span [class]="'badge badge-' + pedido.estado.toLowerCase()">{{ pedido.estado }}</span></td>
+        <td>{{ pedido.fechaActualizacion | date: 'short' }}</td>
+        <td>
+          <button (click)="verHistorial(pedido)" class="btn-historial">
+            Ver Historial
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="!cargando && total > 0" class="pagination">
+    <button
+      *ngFor="let p of [].constructor(obtenerTotalPaginas()); let i = index"
+      [class.active]="page === i + 1"
+      (click)="cambiarPagina(i + 1)"
+    >
+      {{ i + 1 }}
+    </button>
+  </div>
+
+  <!-- Modal Historial -->
+  <div *ngIf="pedidoSeleccionado" class="modal-overlay" (click)="cerrarHistorial()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2>Historial - Pedido #{{ pedidoSeleccionado.id }}</h2>
+        <button class="close-btn" (click)="cerrarHistorial()">×</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="pedido-info">
+          <p><strong>Cliente:</strong> {{ pedidoSeleccionado.clienteNombre }}</p>
+          <p><strong>Descripción:</strong> {{ pedidoSeleccionado.descripcion }}</p>
+          <p><strong>Monto:</strong> ${{ pedidoSeleccionado.monto }}</p>
+          <p><strong>Estado Actual:</strong> <span [class]="'badge badge-' + pedidoSeleccionado.estado.toLowerCase()">{{ pedidoSeleccionado.estado }}</span></p>
+        </div>
+
+        <div *ngIf="cargandoHistorial" class="loading">
+          Cargando historial...
+        </div>
+
+        <div *ngIf="!cargandoHistorial && cambiosHistorial.length > 0" class="cambios-timeline">
+          <div *ngFor="let cambio of cambiosHistorial" class="timeline-item">
+            <div class="timeline-marker"></div>
+            <div class="timeline-content">
+              <p class="timestamp">{{ cambio.fecha | date: 'medium' }}</p>
+              <p class="usuario">Por: {{ cambio.usuarioEmail }}</p>
+              <p class="cambio">
+                {{ cambio.estadoAnterior }} → {{ cambio.estadoNuevo }}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="!cargandoHistorial && cambiosHistorial.length === 0" class="no-data">
+          No hay cambios registrados
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
