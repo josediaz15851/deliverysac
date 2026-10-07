@@ -13,6 +13,7 @@ public class DeliverySacDbContext : DbContext
     public DbSet<Cliente> Clientes => Set<Cliente>();
     public DbSet<Pedido> Pedidos => Set<Pedido>();
     public DbSet<Asignacion> Asignaciones => Set<Asignacion>();
+    public DbSet<CambioEstado> CambiosEstado => Set<CambioEstado>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -56,10 +57,23 @@ public class DeliverySacDbContext : DbContext
             entity.HasOne(e => e.Repartidor).WithMany().HasForeignKey(e => e.RepartidorId).OnDelete(DeleteBehavior.Restrict);
         });
 
+        modelBuilder.Entity<CambioEstado>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.PedidoId).IsRequired();
+            entity.Property(e => e.UsuarioId).IsRequired();
+            entity.Property(e => e.EstadoAnterior).IsRequired();
+            entity.Property(e => e.EstadoNuevo).IsRequired();
+            entity.Property(e => e.Fecha).IsRequired();
+            entity.HasOne(e => e.Pedido).WithMany().HasForeignKey(e => e.PedidoId).OnDelete(DeleteBehavior.Restrict);
+            entity.HasOne(e => e.Usuario).WithMany().HasForeignKey(e => e.UsuarioId).OnDelete(DeleteBehavior.Restrict);
+        });
+
         SeedUsuarios(modelBuilder);
         SeedClientes(modelBuilder);
         SeedPedidos(modelBuilder);
         SeedAsignaciones(modelBuilder);
+        SeedCambiosEstado(modelBuilder);
     }
 
     private void SeedUsuarios(ModelBuilder modelBuilder)
@@ -169,6 +183,40 @@ public class DeliverySacDbContext : DbContext
                 RepartidorId = 2,
                 FechaAsignacion = now.AddHours(-5),
                 FechaEntrega = null
+            }
+        );
+    }
+
+    private void SeedCambiosEstado(ModelBuilder modelBuilder)
+    {
+        var now = DateTime.UtcNow;
+        modelBuilder.Entity<CambioEstado>().HasData(
+            new CambioEstado
+            {
+                Id = 1,
+                PedidoId = 2,
+                UsuarioId = 1,
+                EstadoAnterior = EstadoPedido.PENDIENTE,
+                EstadoNuevo = EstadoPedido.ASIGNADO,
+                Fecha = now.AddHours(-1)
+            },
+            new CambioEstado
+            {
+                Id = 2,
+                PedidoId = 3,
+                UsuarioId = 1,
+                EstadoAnterior = EstadoPedido.PENDIENTE,
+                EstadoNuevo = EstadoPedido.ASIGNADO,
+                Fecha = now.AddHours(-5)
+            },
+            new CambioEstado
+            {
+                Id = 3,
+                PedidoId = 3,
+                UsuarioId = 2,
+                EstadoAnterior = EstadoPedido.ASIGNADO,
+                EstadoNuevo = EstadoPedido.EN_RUTA,
+                Fecha = now.AddMinutes(-30)
             }
         );
     }
