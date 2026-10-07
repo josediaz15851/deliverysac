@@ -22,10 +22,11 @@ Cuando termines una subtarea:
    ```
    Si falla, arreglá primero.
 
-3. **Stagea solo archivos de la subtarea** (no bin/, obj/, dist/, node_modules/)
+3. **Stagea solo archivos de la subtarea** (NUNCA bin/, obj/, dist/, node_modules/)
    ```
-   git add <archivos>
+   git add <archivos específicos>
    ```
+   **IMPORTANTE:** No uses `git add .` — stagea solo lo que tocaste. Si por accidente stagiaste bin/ u obj/, ustá `git restore --staged <archivo>`.
 
 4. **Commitea usando skill conventional-commit**
    
