@@ -26,7 +26,11 @@ Cuando termines una subtarea:
    ```
    git add <archivos específicos>
    ```
-   **IMPORTANTE:** No uses `git add .` — stagea solo lo que tocaste. Si por accidente stagiaste bin/ u obj/, ustá `git restore --staged <archivo>`.
+   **CRÍTICO:** 
+   - NO `git add .` — stagea solo lo que tocaste
+   - NUNCA subas: `bin/`, `obj/`, `dist/`, `node_modules/`
+   - Si accidentalmente stagiaste, usa: `git restore --staged <archivo>`
+   - Si ya están en git, usa: `git rm -r --cached <carpeta>`
 
 4. **Commitea usando skill conventional-commit**
    
