@@ -23,5 +23,34 @@ public class DeliverySacDbContext : DbContext
             entity.Property(e => e.Rol).IsRequired().HasMaxLength(50);
             entity.HasIndex(e => e.Email).IsUnique();
         });
+
+        SeedUsuarios(modelBuilder);
+    }
+
+    private void SeedUsuarios(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Usuario>().HasData(
+            new Usuario
+            {
+                Id = 1,
+                Email = "admin@deliverysac.com",
+                PasswordHash = BCrypt.Net.BCrypt.HashPassword("password123"),
+                Rol = "Administrador"
+            },
+            new Usuario
+            {
+                Id = 2,
+                Email = "repartidor@deliverysac.com",
+                PasswordHash = BCrypt.Net.BCrypt.HashPassword("password123"),
+                Rol = "Repartidor"
+            },
+            new Usuario
+            {
+                Id = 3,
+                Email = "supervisor@deliverysac.com",
+                PasswordHash = BCrypt.Net.BCrypt.HashPassword("password123"),
+                Rol = "Supervisor"
+            }
+        );
     }
 }
