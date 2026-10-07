@@ -11,6 +11,7 @@ public class DeliverySacDbContext : DbContext
 
     public DbSet<Usuario> Usuarios => Set<Usuario>();
     public DbSet<Cliente> Clientes => Set<Cliente>();
+    public DbSet<Pedido> Pedidos => Set<Pedido>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -32,8 +33,21 @@ public class DeliverySacDbContext : DbContext
             entity.Property(e => e.Direccion).IsRequired().HasMaxLength(500);
         });
 
+        modelBuilder.Entity<Pedido>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.ClienteId).IsRequired();
+            entity.Property(e => e.Descripcion).IsRequired().HasMaxLength(500);
+            entity.Property(e => e.Monto).HasPrecision(18, 2);
+            entity.Property(e => e.Estado).IsRequired();
+            entity.Property(e => e.FechaCreacion).IsRequired();
+            entity.Property(e => e.FechaActualizacion).IsRequired();
+            entity.HasOne(e => e.Cliente).WithMany().HasForeignKey(e => e.ClienteId).OnDelete(DeleteBehavior.Restrict);
+        });
+
         SeedUsuarios(modelBuilder);
         SeedClientes(modelBuilder);
+        SeedPedidos(modelBuilder);
     }
 
     private void SeedUsuarios(ModelBuilder modelBuilder)
@@ -83,6 +97,43 @@ public class DeliverySacDbContext : DbContext
                 Id = 3,
                 Nombre = "Farmacia Salud Plus",
                 Direccion = "Calle Secundaria 75, Barrio Sur"
+            }
+        );
+    }
+
+    private void SeedPedidos(ModelBuilder modelBuilder)
+    {
+        var now = DateTime.UtcNow;
+        modelBuilder.Entity<Pedido>().HasData(
+            new Pedido
+            {
+                Id = 1,
+                ClienteId = 1,
+                Descripcion = "2 cafés cortados + 1 medialunas",
+                Monto = 450.00m,
+                Estado = EstadoPedido.PENDIENTE,
+                FechaCreacion = now,
+                FechaActualizacion = now
+            },
+            new Pedido
+            {
+                Id = 2,
+                ClienteId = 2,
+                Descripcion = "Menú completo para 4 personas",
+                Monto = 2500.00m,
+                Estado = EstadoPedido.ASIGNADO,
+                FechaCreacion = now.AddHours(-2),
+                FechaActualizacion = now.AddHours(-1)
+            },
+            new Pedido
+            {
+                Id = 3,
+                ClienteId = 3,
+                Descripcion = "Vitaminas y suplementos varios",
+                Monto = 1800.50m,
+                Estado = EstadoPedido.EN_RUTA,
+                FechaCreacion = now.AddHours(-5),
+                FechaActualizacion = now.AddMinutes(-30)
             }
         );
     }

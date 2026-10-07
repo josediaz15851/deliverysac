@@ -4,6 +4,7 @@ using DeliverySac.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DeliverySac.API.Migrations
 {
     [DbContext(typeof(DeliverySacDbContext))]
-    partial class DeliverySacDbContextModelSnapshot : ModelSnapshot
+    [Migration("20261007034351_AddPedidosTable")]
+    partial class AddPedidosTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -99,38 +102,6 @@ namespace DeliverySac.API.Migrations
                     b.HasIndex("ClienteId");
 
                     b.ToTable("Pedidos");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            ClienteId = 1,
-                            Descripcion = "2 cafés cortados + 1 medialunas",
-                            Estado = 0,
-                            FechaActualizacion = new DateTime(2026, 10, 7, 3, 44, 13, 208, DateTimeKind.Utc).AddTicks(7466),
-                            FechaCreacion = new DateTime(2026, 10, 7, 3, 44, 13, 208, DateTimeKind.Utc).AddTicks(7466),
-                            Monto = 450.00m
-                        },
-                        new
-                        {
-                            Id = 2,
-                            ClienteId = 2,
-                            Descripcion = "Menú completo para 4 personas",
-                            Estado = 1,
-                            FechaActualizacion = new DateTime(2026, 10, 7, 2, 44, 13, 208, DateTimeKind.Utc).AddTicks(7466),
-                            FechaCreacion = new DateTime(2026, 10, 7, 1, 44, 13, 208, DateTimeKind.Utc).AddTicks(7466),
-                            Monto = 2500.00m
-                        },
-                        new
-                        {
-                            Id = 3,
-                            ClienteId = 3,
-                            Descripcion = "Vitaminas y suplementos varios",
-                            Estado = 2,
-                            FechaActualizacion = new DateTime(2026, 10, 7, 3, 14, 13, 208, DateTimeKind.Utc).AddTicks(7466),
-                            FechaCreacion = new DateTime(2026, 10, 6, 22, 44, 13, 208, DateTimeKind.Utc).AddTicks(7466),
-                            Monto = 1800.50m
-                        });
                 });
 
             modelBuilder.Entity("DeliverySac.API.Models.Usuario", b =>
@@ -168,21 +139,21 @@ namespace DeliverySac.API.Migrations
                         {
                             Id = 1,
                             Email = "admin@deliverysac.com",
-                            PasswordHash = "$2a$11$OGdE5LDMkWkcsbeZ7V6ZDO9cBBKDPX7Yo05WFOJMdGJTm8xe8CH0q",
+                            PasswordHash = "$2a$11$.rDOskx9u5r7dvHJ2UKIi.8fM2xWKl60Uox051GYxM1oXHoX9QkoS",
                             Rol = "Administrador"
                         },
                         new
                         {
                             Id = 2,
                             Email = "repartidor@deliverysac.com",
-                            PasswordHash = "$2a$11$j96xSkspGqEvuAH1KinjGeNXD9l2FLyjaxL2DNhtmAI6hpwcUxtsa",
+                            PasswordHash = "$2a$11$NpyoaqVRRgfNcf.odpjjdeOi0xQHoNw8JEHjkXLq.mDJxRQEg5kVa",
                             Rol = "Repartidor"
                         },
                         new
                         {
                             Id = 3,
                             Email = "supervisor@deliverysac.com",
-                            PasswordHash = "$2a$11$5UrPvFkTNgjQNz.kEHNkVOgOHXCFJn9zFyxeNKhqrnzpAu9jvMrXW",
+                            PasswordHash = "$2a$11$gFaTaaSLXawG0icsBUNehe3S6evp.ERJUD9GreP9ZuQgBqYp1eRay",
                             Rol = "Supervisor"
                         });
                 });
